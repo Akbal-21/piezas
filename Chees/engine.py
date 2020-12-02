@@ -12,7 +12,6 @@ class GameState():
             ["--", "--", "--", "--"],
             ["--", "--", "--", "--"]
         ]
-        self.moveFuctions = {"K": self.getKingMoves}
 
         self.whiteToMove = True
         self.moveLog = []
@@ -46,13 +45,14 @@ class GameState():
                 turn = self.board[i][j][0]
                 if (turn == "w" and self.whiteToMove) and (turn == "b" and not self.whiteToMove):
                     piece = self.board[i][j][1]
-                    self.moveFuctions[piece](i, j, moves)
+                    if piece == "K":
+                        self.getKingMoves(i, j, moves)
         return moves
 
     def getKingMoves(self, i, j, moves):
-        knightMoves = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1))
-        allyColo = "W" if self.whiteToMove else "B"
-        for m in knightMoves:
+        KingtMoves = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1))
+        allyColo = "w" if self.whiteToMove else "b"
+        for m in KingtMoves:
             endRow = i + m[0]
             endCol = j + m[1]
             if 0 <= endRow < 4 and 0 <= endCol < 4:
@@ -87,3 +87,4 @@ class Move():
 
     def getRankFile(self, r, c):
         return self.colsToFiles[c] + self.rowsToRank[r]
+
