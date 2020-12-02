@@ -53,13 +53,15 @@ def main():
                         playerClicks = []
                     else:
                         playerClicks = [sqSelected]
+
             elif i.type == p.KEYDOWN:
                 if i.key == p.K_z:
-                    validMoves = gs.undoMove()
+                    gs.undoMove()
                     moveMade = True
+
         if moveMade:
             validMoves = gs.getValidMoves()
-            moveMade = False
+            moveMade = True
 
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
@@ -95,3 +97,4 @@ def drawPieces(screen, board):
 
 if __name__ == '__main__':
     main()
+
