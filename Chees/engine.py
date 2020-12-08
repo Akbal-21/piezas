@@ -12,6 +12,7 @@ class GameState():
             ["--", "--", "--", "--"],
             ["--", "--", "--", "--"]
         ]
+        self.moveFuctions = {"K": self.getKingMoves}
 
         self.whiteToMove = True
         self.moveLog = []
@@ -45,16 +46,15 @@ class GameState():
                 turn = self.board[i][j][0]
                 if (turn == "w" and self.whiteToMove) and (turn == "b" and not self.whiteToMove):
                     piece = self.board[i][j][1]
-                    if piece == "K":
-                        self.getKingMoves(i, j, moves)
+                    self.moveFuctions[piece](i, j, moves)
         return moves
 
     def getKingMoves(self, i, j, moves):
-        KingtMoves = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1))
+        kingtMoves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, -1), (1, -1), (1, 0), (1, 1))
         allyColo = "w" if self.whiteToMove else "b"
-        for m in KingtMoves:
-            endRow = i + m[0]
-            endCol = j + m[1]
+        for m in range(4):
+            endRow = i + kingtMoves[m][0]
+            endCol = j + kingtMoves[m][1]
             if 0 <= endRow < 4 and 0 <= endCol < 4:
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] != allyColo:
@@ -83,8 +83,9 @@ class Move():
         return False
 
     def getChessNotation(self):
-        return self.getRankFile(self.startRow, self.starCol) + self.getRankFile(self.endRow, self.endCol)
+        return self.getRankFile(self.startRow, self.starCol) + ", " + self.getRankFile(self.endRow, self.endCol)
 
     def getRankFile(self, r, c):
         return self.colsToFiles[c] + self.rowsToRank[r]
+
 
